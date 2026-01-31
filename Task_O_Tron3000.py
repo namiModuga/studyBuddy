@@ -11,7 +11,7 @@ DATA_FILE = "items.json"
 class StudyPartnerApp:
     def __init__(self, source):
         self.source = source
-        self.source.title("Study Partner")
+        self.source.title("Task-O-Tron 3000")
         self.source.geometry("700x500")
         self.source.resizable(False, False)
 
@@ -41,29 +41,32 @@ class StudyPartnerApp:
         self.canvas = tk.Canvas(left_frame, width=250, height=250, bg="#f0f8ff")
         self.canvas.pack()
 
-        self.stats_label = tk.Label(left_frame, text="", font=("Arial", 11))
+        self.stats_label = tk.Label(left_frame, text="", font=("Courier New", 11))
         self.stats_label.pack(pady=10)
 
-        self.clock_label = tk.Label(left_frame, font=("Arial", 14, "bold"))
+        self.clock_label = tk.Label(left_frame, font=("Courier New", 14, "bold"))
         self.clock_label.pack()
 
         # Right side: Task manager
         right_frame = tk.Frame(self.source, padx=10, pady=10)
         right_frame.pack(side="right", fill="both", expand=True)
 
-        tk.Label(right_frame, text="Tasks", font=("Arial", 14, "bold")).pack()
+        tk.Label(right_frame, text="Tasks", font=("Courier New", 14, "bold")).pack()
 
-        self.task_entry = tk.Entry(right_frame, font=("Arial", 11))
+        self.task_entry = tk.Entry(right_frame, font=("Courier New", 11))
         self.task_entry.pack(fill="x", pady=5)
 
         add_btn = tk.Button(right_frame, text="Add Task", command=self.add_task)
         add_btn.pack(pady=2)
 
-        self.task_listbox = tk.Listbox(right_frame, font=("Arial", 11), height=10)
+        self.task_listbox = tk.Listbox(right_frame, font=("Courier New", 11), height=10)
         self.task_listbox.pack(fill="both", expand=True, pady=5)
 
-        del_btn = tk.Button(right_frame, text="Complete Selected Task", command=self.complete_task)
-        del_btn.pack(pady=5)
+        complete_btn = tk.Button(right_frame, text="Complete Selected Task", command=self.complete_task)
+        complete_btn.pack(pady=5)
+
+        delete_btn = tk.Button(right_frame, text = "Delete Task(Happiness will go down)", command = self.delete_task)
+        delete_btn.pack(pady = 5)
 
     #Clock + Time
     def update_clock(self):
@@ -110,7 +113,7 @@ class StudyPartnerApp:
             self.canvas.create_line(80, 150, 170, 150, width=4)
 
         # Text mood indicator
-        self.canvas.create_text(125, 230, text=mood.upper(), font=("Arial", 10, "bold"))
+        self.canvas.create_text(125, 230, text=mood.upper(), font=("Courier New", 10, "bold"))
 
     #Attribute Updates
     def update_partner_state(self):
@@ -157,7 +160,6 @@ class StudyPartnerApp:
         selected = self.task_listbox.curselection()
         if not selected:
             messagebox.showwarning("No Selection", "Select a task to complete.")
-            return
 
         index = selected[0]
         self.task_listbox.delete(index)
@@ -174,6 +176,21 @@ class StudyPartnerApp:
             self.energy = min(100, self.energy + 2)
         
         messagebox.showinfo("Great job!", "Task completed! 🎉")
+
+    def delete_task(self):
+        selected = self.task_listbox.curselection()
+        if not selected:
+            messagebox.showwarning("No Selection", "Select a task to complete.")
+        
+        index = selected[0]
+        self.task_listbox.delete(index)
+        del self.tasks[index]
+        self.save_items()
+
+        #Deduct
+        self.happiness = min(100, self.happiness - 5)
+
+        messagebox.showinfo("Uh oh!", "Task deleted, you made me not so happy anymore. :(")
 
     def load_items(self):
       if os.path.exists(DATA_FILE):
