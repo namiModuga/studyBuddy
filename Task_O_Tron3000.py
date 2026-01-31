@@ -109,6 +109,8 @@ class StudyPartnerApp:
             self.canvas.create_line(155, 160, 165, 150, width=3)
             self.canvas.create_oval(85, 90, 105, 110, fill="dark red")
             self.canvas.create_oval(145, 90, 165, 110, fill="dark red")
+        elif mood == "dead":
+            messagebox.showinfo("COMPLETE TASKS", "Task-O-Tron has perished, complete tasks to revive him. Shame on you!")
         else:  # neutral
             self.canvas.create_line(80, 150, 170, 150, width=4)
 
@@ -120,10 +122,12 @@ class StudyPartnerApp:
         time_of_day = self.time_of_day()
 
         # Mood
-        if self.energy < 30:
-            mood = "tired"
+        if self.energy == 0:
+            mood = "dead"
         elif self.happiness > 60:
             mood = "happy"
+        elif self.energy < 30:
+            mood = "tired"
         else:
             mood = "neutral"
 
