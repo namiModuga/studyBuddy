@@ -142,7 +142,7 @@ class StudyPartnerApp:
 
     def display_warning(self) :
         if self.energy <= 30:
-            messagebox.showinfo("lock in", "do task u chud")
+            messagebox.showinfo("Complete Tasks", "Im dissapointed in you, get some work done!")
         self.source.after(5000, self.display_warning)
 
     #Task Management
