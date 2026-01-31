@@ -132,7 +132,7 @@ class StudyPartnerApp:
         self.stats_label.config(
             text=f"Energy: {self.energy}\nHappiness: {self.happiness}\nTasks Completed: {self.tasks_complete}")
         
-        self.source.after(3000, self.update_partner_state)
+        self.source.after(1000, self.update_partner_state)
         self.source.after(864000, self.lose_energy)
 
     def lose_energy(self):
