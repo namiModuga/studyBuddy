@@ -178,8 +178,9 @@ class StudyPartnerApp:
     def load_items(self):
       if os.path.exists(DATA_FILE):
         with open(DATA_FILE, "r") as f:
-          return json.load(f)
-        return[]
+          return json.load(f) 
+      else: 
+          return[]
 
     def save_items(self):
       with open(DATA_FILE, "w") as f:
